@@ -122,6 +122,7 @@ define(function (require, exports, module) {
             //give focus back
             EditorManager.focusEditor();
         }
+		
         function startInsert(output) {
 			console.log("startInsert");
 			console.log("\toutput: " + output);
@@ -139,7 +140,7 @@ define(function (require, exports, module) {
                 }
             }
 			
-			CommandManager.execute(Commands.EDIT_DELETE_LINES); //delete the input line before the final insert is complete
+			// CommandManager.execute(Commands.EDIT_DELETE_LINES); //delete the input line before the final insert is complete
             
             //if the same number of variables
             if (props.length - 1 >= snippetVariables.length) {
@@ -191,29 +192,42 @@ define(function (require, exports, module) {
                 });
         }
         
-        console.log("\tprops length is: " + props.length);
-		if (props.length) {
+		var insertComplete = false;
+        
+		console.log("\tline length is: " + line.length);
+		if( line.length > 0 ) {   
+		// if (props.length) {
             //try to find the snippet, given the trigger text
 			console.log("\ttrying to find a snippet, given the trigger text");
-            var i, insertComplete = false;
-            for (i = 0; i < snippets.length; i++) {
-                if (snippets[i].trigger === props[0]) {
-                    var output = snippets[i].template;
-                    if (output.indexOf('.snippet') === output.length - 8) {
-                        readSnippetFromFile(output);
-                    } else {
-                        startInsert(SnippetPresets.execute(output));
-                    }
-					insertComplete = true;
-                    break;
-                }
-            }
 			
-			if(! insertComplete) {
-            	console.log("\t\tno snippet found, inserting tab");
-				document.replaceRange("\t", {line: pos.line, ch: pos.ch}, {line: pos.line, ch: pos.ch});
+			var start = pos.ch;
+			var end   = pos.ch;
+			
+			while(start > 0) {
+				var str = document.getRange({line: pos.line, ch: --start}, {line: pos.line, ch: end});
+				props = str.split(" ");
+							
+	            var i;
+	            for (i = 0; i < snippets.length; i++) {
+	                if (snippets[i].trigger === props[0]) {
+						console.log("\tsnippet found");
+	                    var output = snippets[i].template;
+	                    if (output.indexOf('.snippet') === output.length - 8) {
+	                        readSnippetFromFile(output);
+	                    } else {
+	                        startInsert(SnippetPresets.execute(output));
+	                    }
+						insertComplete = true;
+	                    break;
+	                }
+	            }
 			}
         }
+		
+		if(! insertComplete) {
+        	console.log("\t\tno snippet found, inserting tab");
+			document.replaceRange("\t", {line: pos.line, ch: pos.ch}, {line: pos.line, ch: pos.ch});
+		}
     }
     
     //builds the snippets table
