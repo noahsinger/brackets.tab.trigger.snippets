@@ -1,0 +1,9 @@
+{
+    "name": "brackets.tab.trigger.snippets",
+    "title": "Brackets Tab Trigger Snippets",
+    "homepage": "https://github.com/noahsinger",
+    "author": "Noah Singer",
+    "version": "0.0.1",
+    "engines": { "brackets": ">=0.24" },
+    "description": "A brackets snippets extension using tab triggers."
+}

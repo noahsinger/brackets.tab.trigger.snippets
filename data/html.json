@@ -1,0 +1,16 @@
+[
+    {
+        "name": "html5",
+        "trigger": "html5",
+        "usage": "html5",
+        "description": "Create an HTML5 page",
+        "template": "html5.snippet"
+    },
+    {
+        "name": "link",
+        "trigger": "a",
+        "usage": "a index.html home",
+        "description": "Create an achor with an href",
+        "template": "<a href=\"$${href}\">$${title}</a>"
+    }
+]

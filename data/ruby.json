@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Method",
+        "trigger": "d",
+        "usage": "d method_name",
+        "description": "Create a Ruby method",
+        "template": "def $${name}\n!!{cursor}\nend"
+    },
+    {
+        "name": "Each iterator",
+        "trigger": "each",
+        "usage": "each collection item",
+        "description": "Create a ruby each iterator block",
+        "template": "$${container}.each do |$${subject}|\n!!{cursor}\nend"
+    }
+]

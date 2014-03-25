@@ -1,0 +1,16 @@
+[
+	{
+	    "name": "Processing Tags",
+	    "trigger": "erb",
+	    "usage": "erb",
+	    "description": "inserts erb processing tags",
+	    "template": "<% !!{cursor} %>"
+	},
+	{
+	    "name": "Output Tags",
+	    "trigger": "erb=",
+	    "usage": "erb=",
+	    "description": "inserts erb output tags",
+	    "template": "<%= !!{cursor} %>"
+	}
+]
