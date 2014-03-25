@@ -211,12 +211,17 @@ define(function (require, exports, module) {
 	            for (i = 0; i < snippets.length; i++) {
 	                if (snippets[i].trigger === props[0]) {
 						console.log("\tsnippet found");
+						
 	                    var output = snippets[i].template;
 	                    if (output.indexOf('.snippet') === output.length - 8) {
 	                        readSnippetFromFile(output);
 	                    } else {
 	                        startInsert(SnippetPresets.execute(output));
 	                    }
+						
+						//remove the trigger text
+						document.replaceRange("", {line: pos.line, ch: start}, {line: pos.line, ch: end});
+						
 						insertComplete = true;
 	                    break;
 	                }
