@@ -1,0 +1,9 @@
+[
+	{
+	    "name": "PHP Tags",
+	    "trigger": "php",
+	    "usage": "php",
+	    "description": "inserts php tags",
+	    "template": "<?php !!{cursor} ?>"
+	}
+]
