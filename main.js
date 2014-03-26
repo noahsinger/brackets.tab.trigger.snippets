@@ -111,6 +111,7 @@ define(function (require, exports, module) {
             
             //set curosr
             if (cursorPos) {
+				console.log("\tsetting cursor position to line " + (pos.line + cursorPos) + " position " + pos.ch);
                 editor._codeMirror.setCursor(pos.line + cursorPos, pos.ch);
             }
             

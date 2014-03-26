@@ -1,7 +1,7 @@
 {
     "name": "brackets.tab.trigger.snippets",
     "title": "Brackets Tab Trigger Snippets",
-    "homepage": "https://github.com/noahsinger",
+    "homepage": "https://github.com/noahsinger/brackets.tab.trigger.snippets",
     "author": "Noah Singer",
     "version": "0.0.1",
     "engines": { "brackets": ">=0.24" },
