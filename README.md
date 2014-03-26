@@ -2,6 +2,7 @@ brackets.tab.trigger.snippets
 =================
 
 Based heavily on "brackets snippets extension" found at `https://github.com/jrowny/brackets-snippets`. 
+This project can be found at `https://github.com/noahsinger/brackets.tab.trigger.snippets`
 
 Usage
 =====
