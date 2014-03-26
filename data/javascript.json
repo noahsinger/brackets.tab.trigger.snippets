@@ -1,5 +1,12 @@
 [
     {
+        "name": "Script tags",
+        "trigger": "script",
+        "usage": "script",
+        "description": "Create javascript script tags",
+        "template": "<script type=\"text/javascript\" charset=\"utf-8\">\n\t\n</script>"
+    },
+    {
         "name": "Function",
         "trigger": "f",
         "usage": "f myFunc",
