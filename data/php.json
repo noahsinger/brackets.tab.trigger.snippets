@@ -5,5 +5,12 @@
 	    "usage": "php",
 	    "description": "inserts php tags",
 	    "template": "<?php !!{cursor} ?>"
+	},
+	{
+	    "name": "PHP Tags with an echo",
+	    "trigger": "phpe",
+	    "usage": "phpe",
+	    "description": "inserts php tags with an echo statement",
+	    "template": "<?php echo !!{cursor} ?>"
 	}
 ]
