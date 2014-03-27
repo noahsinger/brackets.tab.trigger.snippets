@@ -93,7 +93,7 @@ define(function (require, exports, module) {
 			console.log("\teditor:" + editor + "\n\tpos: " + pos + "\n\toutput: " + output);
             var s,
                 x,
-                cursorPos,
+                cursorPos = -1,
                 lines = output.split("\n");
 				
             //figure out cursor pos, remove cursor marker
@@ -110,9 +110,9 @@ define(function (require, exports, module) {
 			document.replaceRange(output, {line: pos.line, ch: pos.ch}, {line: pos.line, ch: pos.ch});
             
             //set curosr
-            if (cursorPos) {
 				console.log("\tsetting cursor position to line " + (pos.line + cursorPos) + " position " + pos.ch);
                 editor._codeMirror.setCursor(pos.line + cursorPos, pos.ch);
+            if (cursorPos >= 0) {
             }
             
             //indent lines
