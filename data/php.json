@@ -12,5 +12,33 @@
 	    "usage": "phpe",
 	    "description": "inserts php tags with an echo statement",
 	    "template": "<?php echo !!{cursor} ?>"
+	},
+	{
+	    "name": "GET Superglobal Array",
+	    "trigger": "get",
+	    "usage": "get",
+	    "description": "inserts $_GET['']",
+	    "template": "$_GET['!!{cursor}']"
+	},
+	{
+	    "name": "POST Superglobal Array",
+	    "trigger": "post",
+	    "usage": "post",
+	    "description": "inserts $_POST['']",
+	    "template": "$_POST['!!{cursor}']"
+	},
+	{
+	    "name": "SESSION Superglobal Array",
+	    "trigger": "sess",
+	    "usage": "sess",
+	    "description": "inserts $_SESSION['']",
+	    "template": "$_SESSION['!!{cursor}']"
+	},
+	{
+	    "name": "REQUEST Superglobal Array",
+	    "trigger": "reqs",
+	    "usage": "reqs",
+	    "description": "inserts $_REQUEST['']",
+	    "template": "$_REQUEST['!!{cursor}']"
 	}
 ]
