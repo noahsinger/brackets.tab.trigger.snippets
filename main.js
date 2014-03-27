@@ -199,7 +199,7 @@ define(function (require, exports, module) {
 		if( line.length > 0 ) {   
 		// if (props.length) {
             //try to find the snippet, given the trigger text
-			console.log("\ttrying to find a snippet, given the trigger text");
+			console.log("\ttrying to find a snippet");
 			
 			var start = pos.ch;
 			var end   = pos.ch;
@@ -207,11 +207,13 @@ define(function (require, exports, module) {
 			while(start > 0) {
 				var str = document.getRange({line: pos.line, ch: --start}, {line: pos.line, ch: end});
 				props = str.split(" ");
+				
+				console.log("\t\tchecking " + props);
 							
 	            var i;
 	            for (i = 0; i < snippets.length; i++) {
 	                if (snippets[i].trigger === props[0]) {
-						console.log("\tsnippet found");
+						console.log("\tsnippet found at " + start + " to " + end);
 						
 	                    var output = snippets[i].template;
 	                    if (output.indexOf('.snippet') === output.length - 8) {
@@ -227,6 +229,10 @@ define(function (require, exports, module) {
 	                    break;
 	                }
 	            }
+				
+				if(insertComplete) {
+					break;
+				}
 			}
         }
 		
