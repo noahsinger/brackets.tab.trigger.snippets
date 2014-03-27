@@ -88,43 +88,57 @@ define(function (require, exports, module) {
 			console.log("\tfound props: " + props);
         }
         
-        function completeInsert(editor, pos, output) {
+        function completeInsert(editor, output, start, end) {
 			console.log("completeInsert")
-			console.log("\teditor:" + editor + "\n\tpos: " + pos + "\n\toutput: " + output);
+			console.log("\teditor:" + editor + "\n\toutput: " + output);
             var s,
                 x,
-                cursorPos = -1,
+                linePos = -1,
+				charPos,
                 lines = output.split("\n");
 				
             //figure out cursor pos, remove cursor marker
+			console.log("\tinserting snippet and placing cursor");
             for (s = 0; s < lines.length; s++) {
                 if (lines[s].indexOf('!!{cursor}') >= 0) {
-                    cursorPos = s;
+					charPos = lines[s].indexOf('!!{cursor}');
+					linePos = s;
+					console.log("\t\tcursor placement needs to be at line " + linePos + " char " + charPos + " of the snippet");
                     output = output.replace('!!{cursor}', '');
                     break;
                 }
             }
+
+			pos = editor.getCursorPos();
+			console.log("\t\tbefore insert cursor is at line " + pos.line + " char " + pos.ch);
                                     
             //do insertion
-            // document.replaceRange(output + "\n", {line: pos.line, ch: 0}, {line: pos.line, ch: 0});
-			document.replaceRange(output, {line: pos.line, ch: pos.ch}, {line: pos.line, ch: pos.ch});
+			// document.replaceRange(output, {line: pos.line, ch: pos.ch}, {line: pos.line, ch: pos.ch});
+			console.log("\t\t*trigger text replaced with snippet*");
+			document.replaceRange(output, start, end);
+			
+			pos = editor.getCursorPos();
+			console.log("\t\tafter insert cursor is at line " + pos.line + " char " + pos.ch);
             
             //set curosr
-				console.log("\tsetting cursor position to line " + (pos.line + cursorPos) + " position " + pos.ch);
-                editor._codeMirror.setCursor(pos.line + cursorPos, pos.ch);
-            if (cursorPos >= 0) {
+            if (linePos >= 0) {
+                editor._codeMirror.setCursor((start.line + linePos), (start.ch + charPos));
+				console.log("\t\tcursor position set to line " + (start.line + linePos) + " char " + (start.ch + charPos));
             }
             
             //indent lines
-            for (x = 0; x < lines.length; x++) {
-                editor._codeMirror.indentLine(pos.line + x);
-            }
+			if( lines.length > 1 ) {
+				console.log("\t\tindenting lines");
+	            for (x = 0; x < lines.length; x++) {
+	                editor._codeMirror.indentLine(pos.line + x);
+	            }
+			}
             
             //give focus back
             EditorManager.focusEditor();
         }
 		
-        function startInsert(output) {
+        function startInsert(output,start,end) {
 			console.log("startInsert");
 			console.log("\toutput: " + output);
             //find variables
@@ -152,7 +166,7 @@ define(function (require, exports, module) {
                     var re = new RegExp(snippetVariables[x].replace('$${', '\\$\\$\\{').replace('}', '\\}'), 'g');
                     output = output.replace(re, props[x + 1]);
                 }
-                completeInsert(editor, pos, output);
+                completeInsert(editor, output, start, end);
             } else {
 				console.log("\tincorrect number of variables available, use inline widget to complete");
                 var snippetPromise,
@@ -170,7 +184,7 @@ define(function (require, exports, module) {
                             output = output.replace(re, inlineWidget.$form.find('.snipvar-' + snippetVariables[z].replace('$${', '').replace('}', '')).val());
                         }
                         
-                        completeInsert(editor, pos, output);
+                        completeInsert(editor, output, start, end);
                     };
                     inlineWidget.$form.on('complete', function () {
                         inlineComplete();
@@ -219,11 +233,11 @@ define(function (require, exports, module) {
 	                    if (output.indexOf('.snippet') === output.length - 8) {
 	                        readSnippetFromFile(output);
 	                    } else {
-	                        startInsert(SnippetPresets.execute(output));
+	                        startInsert(SnippetPresets.execute(output), {line: pos.line, ch: start}, {line: pos.line, ch: end});
 	                    }
 						
 						//remove the trigger text
-						document.replaceRange("", {line: pos.line, ch: start}, {line: pos.line, ch: end});
+						// document.replaceRange("", {line: pos.line, ch: start}, {line: pos.line, ch: end});
 						
 						insertComplete = true;
 	                    break;
