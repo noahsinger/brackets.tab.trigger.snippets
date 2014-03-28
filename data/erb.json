@@ -9,7 +9,7 @@
 	{
 	    "name": "Output Tags",
 	    "trigger": "=",
-	    "usage": "=",
+		"usage": "=",
 	    "description": "inserts erb output tags",
 	    "template": "<%= !!{cursor} %>"
 	}
