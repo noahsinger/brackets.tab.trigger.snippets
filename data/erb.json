@@ -1,15 +1,15 @@
 [
 	{
 	    "name": "Processing Tags",
-	    "trigger": "erb",
-	    "usage": "erb",
+	    "trigger": "-",
+	    "usage": "-",
 	    "description": "inserts erb processing tags",
 	    "template": "<% !!{cursor} %>"
 	},
 	{
 	    "name": "Output Tags",
-	    "trigger": "erb=",
-	    "usage": "erb=",
+	    "trigger": "=",
+	    "usage": "=",
 	    "description": "inserts erb output tags",
 	    "template": "<%= !!{cursor} %>"
 	}
