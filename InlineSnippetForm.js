@@ -1,24 +1,24 @@
 /*
- * Copyright (c) 2013 Jonathan Rowny. All rights reserved.
- *  
+ * Copyright (c) 2013 Noah Singer. All rights reserved.
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"), 
- * to deal in the Software without restriction, including without limitation 
- * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
- * and/or sell copies of the Software, and to permit persons to whom the 
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following conditions:
- *  
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *  
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
- * 
+ *
  */
 
 
@@ -32,10 +32,10 @@ define(function (require, exports, module) {
     function InlineSnippetForm(props, snippet) {
         this.props = props;
         this.snippet = snippet;
-        
+
         InlineWidget.call(this);
     }
-    
+
     function textWidth(text) {
         var html = $('<span style="postion:absolute;width:auto;left:-9999px">' +  text + '</span>');
         $('body').append(html);
@@ -43,29 +43,29 @@ define(function (require, exports, module) {
         html.remove();
         return width;
     }
-    
+
     InlineSnippetForm.prototype = new InlineWidget();
     InlineSnippetForm.prototype.constructor = InlineSnippetForm;
     InlineSnippetForm.prototype.parentClass = InlineWidget.prototype;
-    
+
     InlineSnippetForm.prototype.props = null;
     InlineSnippetForm.prototype.$wrapperDiv = null;
     InlineSnippetForm.prototype.$form = null;
     InlineSnippetForm.prototype.$insert = null;
-        
+
     InlineSnippetForm.prototype.load = function (hostEditor) {
-        
+
         var htmlOutput = this.snippet,
             x;
-        
+
         this.parentClass.load.call(this, hostEditor);
         this.$form = $('<div class="snippet-form"><div/>');
-        
+
         function formElement(property) {
             property = property.replace('$${', '').replace('}', '');
             return '<input type="text" value="" class="snipvar-' + property + '" data-snippet="' + property + '" placeholder="' + property + '"/>';
         }
-        
+
         //make our snippet look nice in the editor
         htmlOutput = htmlOutput.replace(/</g, '&lt;')
                                .replace(/>/g, '&gt;')
@@ -73,14 +73,14 @@ define(function (require, exports, module) {
                                .replace(/\t/g, '    ')
                                .replace('!!{cursor}', '')
                                .replace(/ /g, '&nbsp;');
-        
+
         //turn the snippets into form fields
         for (x = 0; x < this.props.length; x++) {
             htmlOutput = htmlOutput.split(this.props[x]).join(formElement(this.props[x]));
         }
-                
+
         this.$form.append(htmlOutput);
-        
+
         //size the inputs to the placeholders and changing text
         this.$form.find('input').each(function () {
             var $input = $(this);
@@ -99,7 +99,7 @@ define(function (require, exports, module) {
                 }
             });
         });
-                
+
         //listen for keypress
         this.$form.keydown(function (e) {
             //on enter, complete snippet
@@ -111,7 +111,7 @@ define(function (require, exports, module) {
                 //we will control the tabing
                 e.stopImmediatePropagation();
                 e.preventDefault();
-                
+
                 //select the next empty element unless there is no next element... or the next element is the current element
                 var next = $(this).find('input').filter(function () { return $(this).val() === ""; });
                 if (next.length && !$(next[0]).is(':focus')) {
@@ -121,11 +121,11 @@ define(function (require, exports, module) {
                 }
             }
         });
-                        
+
         this.$htmlContent.addClass('snippet-form-widget');
         this.$htmlContent.append(this.$form);
     };
-    
+
     InlineSnippetForm.prototype.close = function () {
         this.hostEditor.removeInlineWidget(this);
     };
@@ -134,10 +134,10 @@ define(function (require, exports, module) {
         window.setTimeout(this._sizeEditorToContent.bind(this));
         this.$form.find('input').first().focus();
     };
-    
+
     InlineSnippetForm.prototype._sizeEditorToContent = function () {
         this.hostEditor.setInlineWidgetHeight(this, this.$form.height(), true);
     };
-    
+
     module.exports = InlineSnippetForm;
 });
