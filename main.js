@@ -169,6 +169,11 @@ define(function (require, exports, module) {
 				completeInsert(editor, output, start, end);
 			} else {
 				console.log("\tincorrect number of variables available, use inline widget to complete");
+				
+				//remove tab keybinding
+				KeyBindingManager.removeBinding("Tab");
+				console.log("\tkeybinding removed");
+				
 				var snippetPromise,
 				result = new $.Deferred();
 				snippetPromise = inlineSnippetFormProvider(editor, snippetVariables, output);
@@ -189,6 +194,11 @@ define(function (require, exports, module) {
 					inlineWidget.$form.on('complete', function () {
 						inlineComplete();
 						inlineWidget.close();
+						
+						//reinstate tab key binding
+						KeyBindingManager.addBinding(SNIPPET_EXECUTE, "Tab");
+						console.log("\tkeybinding reset");
+						
 					});
 				}).fail(function () {
 					result.reject();
