@@ -12,5 +12,12 @@
 		"usage": "=",
 	    "description": "inserts erb output tags",
 	    "template": "<%= !!{cursor} %>"
-	}
+	},
+    {
+        "name": "link_to",
+        "trigger": "lt",
+        "usage": "lt text url",
+        "description": "insert a link_to method call",
+        "template": "link_to \"$${text}\", $${url}"
+    }
 ]
