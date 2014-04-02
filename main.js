@@ -207,11 +207,11 @@ define(function (require, exports, module) {
 			}
 		}
 
-		function readSnippetFromFile(fieName) {
+		function readSnippetFromFile(fieName,start,end) {
 			var snippetFile = new NativeFileSystem.FileEntry(directory + '/snippets/' + fieName);
 			FileUtils.readAsText(snippetFile)
 			.done(function (text, readTimestamp) {
-				startInsert(SnippetPresets.execute(text));
+				startInsert(SnippetPresets.execute(text), start, end);
 			}).fail(function (error) {
 				FileUtils.showFileOpenError(error.code, snippetFile);
 			});
@@ -241,13 +241,10 @@ define(function (require, exports, module) {
 
 							var output = snippets[i].template;
 							if (output.indexOf('.snippet') === output.length - 8) {
-								readSnippetFromFile(output);
+								readSnippetFromFile(output, {line: pos.line, ch: start}, {line: pos.line, ch: end});
 							} else {
 								startInsert(SnippetPresets.execute(output), {line: pos.line, ch: start}, {line: pos.line, ch: end});
 							}
-
-							//remove the trigger text
-							// document.replaceRange("", {line: pos.line, ch: start}, {line: pos.line, ch: end});
 
 							insertComplete = true;
 							break;
