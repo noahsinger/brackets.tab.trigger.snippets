@@ -207,8 +207,8 @@ define(function (require, exports, module) {
 			}
 		}
 
-		function readSnippetFromFile(fieName,start,end) {
-			var snippetFile = new NativeFileSystem.FileEntry(directory + '/snippets/' + fieName);
+		function readSnippetFromFile(fileName,start,end) {
+			var snippetFile = new NativeFileSystem.FileEntry(directory + '/snippets/' + fileName);
 			FileUtils.readAsText(snippetFile)
 			.done(function (text, readTimestamp) {
 				startInsert(SnippetPresets.execute(text), start, end);
